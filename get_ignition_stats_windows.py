@@ -112,3 +112,5 @@ def get_stats():
 
 	print(num_ppl, avg_pot, plrs_flop)
 	return num_ppl, avg_pot, plrs_flop
+
+get_stats()
