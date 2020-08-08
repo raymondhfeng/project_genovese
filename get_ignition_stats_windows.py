@@ -25,8 +25,8 @@ def get_stats():
 	    result.paste(pil_img, (left, top))
 	    return result
 
-	list_of_files = glob.glob('/Users/raymondfeng/Desktop/TrickyWays/screenshots/*') 
-	latest_file = max(list_of_files, key=os.path.getctime)
+        list_of_files = glob.glob('/home/pi/screenshots/') 
+        latest_file = max(list_of_files, key=os.path.getctime)
 
 	# latest_file = '/Users/raymondfeng/Desktop/TrickyWays/cropped/chubert.jpeg'
 
@@ -40,9 +40,11 @@ def get_stats():
 
 	im1 = im.crop((left, top, right, bottom)) 
 
-	im1.save('/Users/raymondfeng/Desktop/TrickyWays/cropped/chubert_cropped.jpeg')  
-	img = cv2.imread('/Users/raymondfeng/Desktop/TrickyWays/cropped/chubert_cropped.jpeg',0)
-	im = Image.open('/Users/raymondfeng/Desktop/TrickyWays/cropped/chubert_cropped.jpeg')
+	# im1.save('/Users/raymondfeng/Desktop/TrickyWays/cropped/chubert_cropped.jpeg')  
+	# img = cv2.imread('/Users/raymondfeng/Desktop/TrickyWays/cropped/chubert_cropped.jpeg',0)
+	# im = Image.open('/Users/raymondfeng/Desktop/TrickyWays/cropped/chubert_cropped.jpeg')
+        im1.save('/home/pi/cropped.jpeg')
+        im = Image.open('/home/pi/cropped.jpeg')
 
 	num_ppl = []
 	num_ppl_width = 45
@@ -53,7 +55,7 @@ def get_stats():
 		img = im.crop((left, i*y_delta,
 			left+num_ppl_width, (i+1)*y_delta))
 		# img = add_margin(img, 5, 0, 5, 0, (255,255,255)) # Supposedly helps the OCR
-		path_name = os.path.join('/Users/raymondfeng/Desktop/TrickyWays/cropped/ignition_cropped', 
+		path_name = os.path.join('/home/pi/pre_ocr', 
 			str(datetime.now())[10:19].replace(':','_') + '_' + str(i) + '_' + 'num_ppl.png')
 		img = img.resize((round(img.size[0]*10), round(img.size[1]*10)), Image.ANTIALIAS)
 		img.save(path_name)
@@ -74,7 +76,7 @@ def get_stats():
 		img = im.crop((left, i*y_delta,
 			left+avg_pot_width, (i+1)*y_delta))
 		img = add_margin(img, 5, 0, 5, 0, (255,255,255)) # Supposedly helps the OCR
-		path_name = os.path.join('/Users/raymondfeng/Desktop/TrickyWays/cropped/ignition_cropped', 
+		path_name = os.path.join('/home/pi/pre_ocr', 
 			str(datetime.now())[10:19].replace(':','_') + '_' + str(i) + '_' + 'avg_pot.png')
 		img = img.resize((round(img.size[0]*10), round(img.size[1]*10)), Image.ANTIALIAS)
 		img.save(path_name)
@@ -95,7 +97,7 @@ def get_stats():
 		img = im.crop((left, i*y_delta,
 			left+plrs_flop_width, (i+1)*y_delta))
 		img = add_margin(img, 5, 0, 5, 0, (0,0,0)) # Supposedly helps the OCR
-		path_name = os.path.join('/Users/raymondfeng/Desktop/TrickyWays/cropped/ignition_cropped', 
+		path_name = os.path.join('/home/pi/pre_ocr', 
 			str(datetime.now())[10:19].replace(':','_') + '_' + str(i) + '_' + 'plrs_flop.png')
 		img = img.resize((round(img.size[0]*12), round(img.size[1]*12)), Image.ANTIALIAS)
 		img.save(path_name)
@@ -113,4 +115,3 @@ def get_stats():
 	print(num_ppl, avg_pot, plrs_flop)
 	return num_ppl, avg_pot, plrs_flop
 
-get_stats()
