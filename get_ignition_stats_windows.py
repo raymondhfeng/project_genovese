@@ -25,8 +25,8 @@ def get_stats():
 	    result.paste(pil_img, (left, top))
 	    return result
 
-        list_of_files = glob.glob('/home/pi/screenshots/') 
-        latest_file = max(list_of_files, key=os.path.getctime)
+	list_of_files = glob.glob('/home/pi/screenshots/') 
+	latest_file = max(list_of_files, key=os.path.getctime)
 
 	# latest_file = '/Users/raymondfeng/Desktop/TrickyWays/cropped/chubert.jpeg'
 
@@ -43,8 +43,8 @@ def get_stats():
 	# im1.save('/Users/raymondfeng/Desktop/TrickyWays/cropped/chubert_cropped.jpeg')  
 	# img = cv2.imread('/Users/raymondfeng/Desktop/TrickyWays/cropped/chubert_cropped.jpeg',0)
 	# im = Image.open('/Users/raymondfeng/Desktop/TrickyWays/cropped/chubert_cropped.jpeg')
-        im1.save('/home/pi/cropped.jpeg')
-        im = Image.open('/home/pi/cropped.jpeg')
+	im1.save('/home/pi/cropped.jpeg')
+	im = Image.open('/home/pi/cropped.jpeg')
 
 	num_ppl = []
 	num_ppl_width = 45
