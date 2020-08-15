@@ -67,10 +67,10 @@ def get_stats():
 		cv2.imwrite(path_name, img)
 		img = Image.open(path_name)
 		result = pytesseract.image_to_string(img, config='--psm 7 --oem 3 -c tessedit_char_whitelist=0123456789+')
-                draw = ImageDraw.Draw(img)
-                font = ImageFont.truetype("/home/pi/open-sans/OpenSans-Regular.ttf", 52)
-                draw.text((0, 0),str(result),(0),font=font)
-                num_ppl.append(result)
+		draw = ImageDraw.Draw(img)
+		font = ImageFont.truetype("/home/pi/open-sans/OpenSans-Regular.ttf", 52)
+		draw.text((0, 0),str(result),(0),font=font)
+		num_ppl.append(result)
 
 	avg_pot = []
 	avg_pot_width = 60
@@ -90,8 +90,11 @@ def get_stats():
 		img = 255 - img
 		cv2.imwrite(path_name, img)
 		img = Image.open(path_name)
-		avg_pot.append(pytesseract.image_to_string(img, 
-			config='--psm 7 --oem 3 -c tessedit_char_whitelist=0123456789+.$'))
+		result = pytesseract.image_to_string(img, config='--psm 7 --oem 3 -c tessedit_char_whitelist=0123456789+.$')
+				draw = ImageDraw.Draw(img)
+		font = ImageFont.truetype("/home/pi/open-sans/OpenSans-Regular.ttf", 52)
+		draw.text((0, 0),str(result),(0),font=font)
+		avg_pot.append(result)
 
 	plrs_flop = []
 	plrs_flop_width = 48
@@ -114,8 +117,10 @@ def get_stats():
 		img = 255 - img
 		cv2.imwrite(path_name, img)
 		img = Image.open(path_name)
-		plrs_flop.append(pytesseract.image_to_string(img, 
-			config='--psm 7 --oem 3 -c tessedit_char_whitelist=0123456789%'))
+		result = pytesseract.image_to_string(img, config='--psm 7 --oem 3 -c tessedit_char_whitelist=0123456789%')
+		font = ImageFont.truetype("/home/pi/open-sans/OpenSans-Regular.ttf", 52)
+		draw.text((0, 0),str(result),(0),font=font)
+		plrs_flop.append(result)
 
 	print(num_ppl, avg_pot, plrs_flop)
 	return num_ppl, avg_pot, plrs_flop
