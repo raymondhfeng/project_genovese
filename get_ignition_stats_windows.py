@@ -31,21 +31,20 @@ def get_stats():
 	latest_file = max(list_of_files, key=os.path.getctime)
 
 	# latest_file = '/Users/raymondfeng/Desktop/TrickyWays/cropped/chubert.jpeg'
-
-	# Opens a image in RGB mode 
-	im = Image.open(latest_file) 
 	  
 	left = 292
-	top = 341 + 3
-	right = 908
+	top = 341 + 5
+	right = 908 + 4
 	bottom = 443 + 3	
 
-	im1 = im.crop((left, top, right, bottom)) 
-
-	# im1.save('/Users/raymondfeng/Desktop/TrickyWays/cropped/chubert_cropped.jpeg')  
-	# img = cv2.imread('/Users/raymondfeng/Desktop/TrickyWays/cropped/chubert_cropped.jpeg',0)
+	# img = canny_edge(latest_file) 
+	# img = img[top:bottom, left:right] 
+	# cv2.imwrite('/Users/raymondfeng/Desktop/TrickyWays/cropped/chubert_cropped.jpeg', img)
 	# im = Image.open('/Users/raymondfeng/Desktop/TrickyWays/cropped/chubert_cropped.jpeg')
-	im1.save('/home/pi/cropped.jpeg')
+
+	im = canny_edge(latest_file)
+	img = img[top:bottom, left:right]
+	im.save('/home/pi/cropped.jpeg')
 	im = Image.open('/home/pi/cropped.jpeg')
 
 	num_ppl = []
@@ -57,6 +56,8 @@ def get_stats():
 		img = im.crop((left, i*y_delta,
 			left+num_ppl_width, (i+1)*y_delta))
 		# img = add_margin(img, 5, 0, 5, 0, (255,255,255)) # Supposedly helps the OCR
+		# path_name = os.path.join('/Users/raymondfeng/Downloads/pre_ocr', 
+		# 	str(datetime.now())[10:19].replace(':','_') + '_' + str(i) + '_' + 'num_ppl.png')
 		path_name = os.path.join('/home/pi/pre_ocr', 
 			str(datetime.now())[10:19].replace(':','_') + '_' + str(i) + '_' + 'num_ppl.png')
 		img = img.resize((round(img.size[0]*10), round(img.size[1]*10)), Image.ANTIALIAS)
@@ -82,6 +83,8 @@ def get_stats():
 		img = im.crop((left, i*y_delta,
 			left+avg_pot_width, (i+1)*y_delta))
 		img = add_margin(img, 5, 0, 5, 0, (0,0,0)) # Supposedly helps the OCR
+		# path_name = os.path.join('/Users/raymondfeng/Downloads/pre_ocr', 
+		# 	str(datetime.now())[10:19].replace(':','_') + '_' + str(i) + '_' + 'avg_pot.png')
 		path_name = os.path.join('/home/pi/pre_ocr', 
 			str(datetime.now())[10:19].replace(':','_') + '_' + str(i) + '_' + 'avg_pot.png')
 		img = img.resize((round(img.size[0]*10), round(img.size[1]*10)), Image.ANTIALIAS)
@@ -107,6 +110,8 @@ def get_stats():
 		img = im.crop((left, i*y_delta,
 			left+plrs_flop_width, (i+1)*y_delta))
 		img = add_margin(img, 5, 0, 5, 0, (0,0,0)) # Supposedly helps the OCR
+		# path_name = os.path.join('/Users/raymondfeng/Downloads/pre_ocr', 
+		# 	str(datetime.now())[10:19].replace(':','_') + '_' + str(i) + '_' + 'plrs_flop.png')
 		path_name = os.path.join('/home/pi/pre_ocr', 
 			str(datetime.now())[10:19].replace(':','_') + '_' + str(i) + '_' + 'plrs_flop.png')
 		img = img.resize((round(img.size[0]*12), round(img.size[1]*12)), Image.ANTIALIAS)
@@ -128,4 +133,53 @@ def get_stats():
 
 	print(num_ppl, avg_pot, plrs_flop)
 	return num_ppl, avg_pot, plrs_flop
+
+def canny_edge(file_path):
+	import cv2
+	import numpy as np
+	import math
+	# https://stackoverflow.com/questions/45322630/how-to-detect-lines-in-opencv
+	img = cv2.imread(file_path)
+	img = img[50:-50,50:-50] # Cropping the borders
+
+	gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+
+	kernel_size = 5
+	blur_gray = cv2.GaussianBlur(gray,(kernel_size, kernel_size),0)
+
+	low_threshold = 50
+	high_threshold = 150
+	edges = cv2.Canny(blur_gray, low_threshold, high_threshold)
+
+	rho = 1  # distance resolution in pixels of the Hough grid
+	theta = np.pi / 180  # angular resolution in radians of the Hough grid
+	threshold = 15  # minimum number of votes (intersections in Hough grid cell)
+	min_line_length = 50  # minimum number of pixels making up a line
+	max_line_gap = 20  # maximum gap in pixels between connectable line segments
+	line_image = np.copy(img) * 0  # creating a blank to draw lines on
+
+	# Run Hough on edge detected image
+	# Output "lines" is an array containing endpoints of detected line segments
+	lines = cv2.HoughLinesP(edges, rho, theta, threshold, np.array([]),
+	                    min_line_length, max_line_gap)
+
+	top = sorted(lines, key=lambda x: x[0][1])[0] # Top is the line with smallest y coord.
+	bottom = sorted(lines, key=lambda x:x[0][1])[-1] # Bottom is the line with largest y coord.
+	left = sorted(lines, key=lambda x:x[0][0])[0] # Left is the line with the smallest x coord
+	right = sorted(lines, key=lambda x:x[0][0])[-1] # Right is the line with the largest x coord
+	borders = [top, bottom, left, right]
+	for line in borders:
+	    for x1,y1,x2,y2 in line:
+	    	print(line)
+	    	cv2.line(line_image,(x1,y1),(x2,y2),(255,0,0),5)
+
+	top, bottom, left, right = top[0][1], bottom[0][1], left[0][0], right[0][0]
+	img = img[top:bottom,left:right]
+	return img
+
+def main():
+	get_stats()
+
+if __name__ == '__main__':
+	main()
 
