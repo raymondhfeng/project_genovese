@@ -44,7 +44,7 @@ def get_stats():
 
 	im = canny_edge(latest_file)
 	im = img[top:bottom, left:right]
-	im.save('/home/pi/cropped.jpeg')
+	cv2.imwrite('/home/pi/cropped.jpeg')
 	im = Image.open('/home/pi/cropped.jpeg')
 
 	num_ppl = []
