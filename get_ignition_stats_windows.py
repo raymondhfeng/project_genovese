@@ -109,12 +109,12 @@ def get_stats():
 		img = add_margin(img, 5, 0, 5, 0, (0,0,0)) # Supposedly helps the OCR
 		path_name = os.path.join('/home/pi/pre_ocr', 
 			str(datetime.now())[10:19].replace(':','_') + '_' + str(i) + '_' + 'plrs_flop.png')
-		img = img.resize((round(img.size[0]*10), round(img.size[1]*10)), Image.ANTIALIAS)
+		img = img.resize((round(img.size[0]*12), round(img.size[1]*12)), Image.ANTIALIAS)
 		img.save(path_name)
 		img = cv2.imread(path_name, 0)
 		# img = cv2.filter2D(img, -1, np.array([[-1,-1,-1], [-1,9,-1], [-1,-1,-1]]))
 		# img = cv2.GaussianBlur(img, (3,3), 0)
-		img = cv2.erode(img, np.ones((5,5), np.uint8), iterations=1)
+		img = cv2.erode(img, np.ones((5,5), np.uint8), iterations=2)
 		thresh, img = cv2.threshold(img,0,255,cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 		img = 255 - img
 		cv2.imwrite(path_name, img)
