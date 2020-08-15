@@ -70,6 +70,7 @@ def get_stats():
 		draw = ImageDraw.Draw(img)
 		font = ImageFont.truetype("/home/pi/open-sans/OpenSans-Regular.ttf", 52)
 		draw.text((0, 0),str(result),(0),font=font)
+		img.save(path_name)
 		num_ppl.append(result)
 
 	avg_pot = []
@@ -94,6 +95,7 @@ def get_stats():
 		draw = ImageDraw.Draw(img)
 		font = ImageFont.truetype("/home/pi/open-sans/OpenSans-Regular.ttf", 52)
 		draw.text((0, 0),str(result),(0),font=font)
+		img.save(path_name)
 		avg_pot.append(result)
 
 	plrs_flop = []
@@ -120,6 +122,7 @@ def get_stats():
 		result = pytesseract.image_to_string(img, config='--psm 7 --oem 3 -c tessedit_char_whitelist=0123456789%')
 		font = ImageFont.truetype("/home/pi/open-sans/OpenSans-Regular.ttf", 52)
 		draw.text((0, 0),str(result),(0),font=font)
+		img.save(path_name)
 		plrs_flop.append(result)
 
 	print(num_ppl, avg_pot, plrs_flop)
