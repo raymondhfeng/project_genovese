@@ -91,7 +91,7 @@ def get_stats():
 		cv2.imwrite(path_name, img)
 		img = Image.open(path_name)
 		result = pytesseract.image_to_string(img, config='--psm 7 --oem 3 -c tessedit_char_whitelist=0123456789+.$')
-				draw = ImageDraw.Draw(img)
+		draw = ImageDraw.Draw(img)
 		font = ImageFont.truetype("/home/pi/open-sans/OpenSans-Regular.ttf", 52)
 		draw.text((0, 0),str(result),(0),font=font)
 		avg_pot.append(result)
