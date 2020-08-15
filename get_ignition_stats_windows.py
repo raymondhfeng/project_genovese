@@ -43,7 +43,7 @@ def get_stats():
 	# im = Image.open('/Users/raymondfeng/Desktop/TrickyWays/cropped/chubert_cropped.jpeg')
 
 	im = canny_edge(latest_file)
-	img = img[top:bottom, left:right]
+	im = img[top:bottom, left:right]
 	im.save('/home/pi/cropped.jpeg')
 	im = Image.open('/home/pi/cropped.jpeg')
 
