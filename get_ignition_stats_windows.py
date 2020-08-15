@@ -5,8 +5,8 @@ def get_stats():
 	# https://github.com/celery/celery/issues/2964	
 
 	from PIL import Image
-        from PIL import ImageDraw
-        from PIL import ImageFont
+	from PIL import ImageDraw
+	from PIL import ImageFont
 
 	import glob
 	import os
