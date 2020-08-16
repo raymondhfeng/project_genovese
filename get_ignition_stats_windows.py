@@ -124,7 +124,8 @@ def get_stats():
 		img = 255 - img
 		cv2.imwrite(path_name, img)
 		img = Image.open(path_name)
-		result = pytesseract.image_to_string(img, config='--psm 7 --oem 3 -c tessedit_char_whitelist=0123456789%')
+		# result = pytesseract.image_to_string(img, config='--psm 7 --oem 3 -c tessedit_char_whitelist=0123456789%')
+		result = pytesseract.image_to_string(img, config='--psm 7 --oem 0 -c tessedit_char_whitelist=0123456789%')
 		font = ImageFont.truetype("/home/pi/open-sans/OpenSans-Regular.ttf", 52)
 		draw = ImageDraw.Draw(img)
 		draw.text((0, 0),str(result),(0),font=font)
