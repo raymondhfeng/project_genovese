@@ -44,7 +44,7 @@ def get_stats():
 
 	im = canny_edge(latest_file)
 	im = im[top:bottom, left:right]
-	im.save('/home/pi/cropped.jpeg')
+	cv2.imwrite('/home/pi/cropped.jpeg', im)
 	im = Image.open('/home/pi/cropped.jpeg')
 
 	num_ppl = []
@@ -102,7 +102,7 @@ def get_stats():
 		avg_pot.append(result)
 
 	plrs_flop = []
-	plrs_flop_width = 48
+	plrs_flop_width = 32
 	left = 573
 	num_rows = 5
 	y_delta = im.size[1] / num_rows
@@ -170,7 +170,6 @@ def canny_edge(file_path):
 	borders = [top, bottom, left, right]
 	for line in borders:
 	    for x1,y1,x2,y2 in line:
-	    	print(line)
 	    	cv2.line(line_image,(x1,y1),(x2,y2),(255,0,0),5)
 
 	top, bottom, left, right = top[0][1], bottom[0][1], left[0][0], right[0][0]
