@@ -33,9 +33,9 @@ def get_stats():
 	# latest_file = '/Users/raymondfeng/Desktop/TrickyWays/cropped/chubert.jpeg'
 	  
 	left = 292
-	top = 341 + 5
-	right = 908 + 4
-	bottom = 443 + 3	
+	top = 364 - 2
+	right = 908 + 8
+	bottom = 466 - 2
 
 	# img = canny_edge(latest_file) 
 	# img = img[top:bottom, left:right] 
@@ -75,8 +75,8 @@ def get_stats():
 		num_ppl.append(result)
 
 	avg_pot = []
-	avg_pot_width = 60
-	left = 483
+	avg_pot_width = 64
+	left = 487
 	num_rows = 5
 	y_delta = im.size[1] / num_rows
 	for i in range(num_rows):
@@ -103,7 +103,7 @@ def get_stats():
 
 	plrs_flop = []
 	plrs_flop_width = 32
-	left = 573
+	left = 573 + 5
 	num_rows = 5
 	y_delta = im.size[1] / num_rows
 	for i in range(num_rows):
@@ -141,7 +141,7 @@ def canny_edge(file_path):
 	import math
 	# https://stackoverflow.com/questions/45322630/how-to-detect-lines-in-opencv
 	img = cv2.imread(file_path)
-	img = img[50:-50,50:-50] # Cropping the borders
+	img = img[200:-200,200:-200] # Cropping the borders
 
 	gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 
