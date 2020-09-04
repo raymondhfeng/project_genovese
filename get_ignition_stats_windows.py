@@ -100,6 +100,7 @@ def get_stats():
 		draw.text((0, 0),str(result),(0),font=font)
 		img.save(path_name)
 		avg_pot.append(result)
+		if '.' not in result: result = result[:-2] + '.' + result[-2:] # TODO: This is clunky
 
 	plrs_flop = []
 	plrs_flop_width = 32
