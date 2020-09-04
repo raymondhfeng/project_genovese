@@ -82,7 +82,7 @@ def get_stats():
 	for i in range(num_rows):
 		img = im.crop((left, i*y_delta,
 			left+avg_pot_width, (i+1)*y_delta))
-		img = add_margin(img, 5, 0, 5, 0, (0,0,0)) # Supposedly helps the OCR
+		img = add_margin(img, 5, 5, 5, 0, (0,0,0)) # Supposedly helps the OCR
 		# path_name = os.path.join('/Users/raymondfeng/Downloads/pre_ocr', 
 		# 	str(datetime.now())[10:19].replace(':','_') + '_' + str(i) + '_' + 'avg_pot.png')
 		path_name = os.path.join('/home/pi/pre_ocr', 
@@ -94,7 +94,7 @@ def get_stats():
 		img = 255 - img
 		cv2.imwrite(path_name, img)
 		img = Image.open(path_name)
-		result = pytesseract.image_to_string(img, config='--psm 7 --oem 3 -c tessedit_char_whitelist=0123456789+.$')
+		result = pytesseract.image_to_string(img, config='--psm 10 --oem 3 -c tessedit_char_whitelist=.0123456789$')
 		draw = ImageDraw.Draw(img)
 		font = ImageFont.truetype("/home/pi/open-sans/OpenSans-Regular.ttf", 52)
 		draw.text((0, 0),str(result),(0),font=font)
@@ -124,8 +124,8 @@ def get_stats():
 		img = 255 - img
 		cv2.imwrite(path_name, img)
 		img = Image.open(path_name)
-		# result = pytesseract.image_to_string(img, config='--psm 7 --oem 3 -c tessedit_char_whitelist=0123456789%')
-		result = pytesseract.image_to_string(img, config='--psm 7 --oem 0 -c tessedit_char_whitelist=0123456789%')
+		result = pytesseract.image_to_string(img, config='--psm 7 --oem 3 -c tessedit_char_whitelist=0123456789')
+		# result = pytesseract.image_to_string(img, config='--psm 7 --oem 0 -c tessedit_char_whitelist=0123456789%')
 		font = ImageFont.truetype("/home/pi/open-sans/OpenSans-Regular.ttf", 52)
 		draw = ImageDraw.Draw(img)
 		draw.text((0, 0),str(result),(0),font=font)
